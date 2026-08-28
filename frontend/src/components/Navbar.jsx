@@ -12,7 +12,7 @@ export default function Navbar() {
 
   return (
     <nav className="navbar">
-      <Link to="/" className="brand">CineLog</Link>
+      <Link to="/" className="brand">Moview</Link>
       <div className="nav-links">
         <Link to="/">Browse</Link>
         {user && <Link to="/my-reviews">My Reviews</Link>}

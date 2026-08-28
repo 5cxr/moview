@@ -1,4 +1,4 @@
-# CineLog
+# Moview
 
 A small Letterboxd-style movie review app. Log movies you've watched, rate them 0-10 (half-star precision), mark liked/not liked, and browse other users' reviews.
 

@@ -1,6 +1,4 @@
-# CineLog — Movie Review Platform
-
-*(Alt titles if you want options: **Reelog**, **Screenote**, **Watchd** — went with CineLog below, swap freely)*
+# Moview — Movie Review Platform
 
 A Letterboxd-style movie review app. Users log movies they've watched, rate them 0–10 (half-star precision), and mark liked/not liked separately from rating.
 
