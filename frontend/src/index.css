@@ -145,6 +145,15 @@ h1, h2, h3 {
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
+  object-fit: cover;
+}
+
+.poster-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .movie-card:hover .poster {
@@ -224,6 +233,31 @@ h1, h2, h3 {
 .rating-number {
   color: var(--text-dim);
   font-size: 0.85rem;
+}
+
+.star-picker {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.star-picker-hitboxes {
+  position: absolute;
+  inset: 0;
+  display: flex;
+}
+
+.star-picker-hitbox {
+  flex: 1;
+  height: 100%;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+}
+
+.star-picker-hitbox:hover, .star-picker-hitbox:focus-visible {
+  background: transparent;
 }
 
 /* ---------- Movie detail ---------- */
@@ -314,10 +348,6 @@ hr {
   flex-direction: row !important;
   align-items: center;
   gap: 0.5rem !important;
-}
-
-.rating-preview {
-  margin-top: 0.15rem;
 }
 
 .form-actions {

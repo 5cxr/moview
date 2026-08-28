@@ -41,6 +41,7 @@ public class MovieService {
 
     public MovieResponse create(MovieRequest request) {
         Movie movie = new Movie(request.getTitle(), request.getGenre(), request.getReleaseYear(), request.getDirector());
+        movie.setPosterUrl(request.getPosterUrl());
         return new MovieResponse(movieRepository.save(movie));
     }
 
@@ -50,6 +51,7 @@ public class MovieService {
         movie.setGenre(request.getGenre());
         movie.setReleaseYear(request.getReleaseYear());
         movie.setDirector(request.getDirector());
+        movie.setPosterUrl(request.getPosterUrl());
         return new MovieResponse(movieRepository.save(movie));
     }
 

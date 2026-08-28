@@ -1,6 +1,6 @@
 # Moview
 
-A small Letterboxd-style movie review app. Log movies you've watched, rate them 0-10 (half-star precision), mark liked/not liked, and browse other users' reviews.
+A small Letterboxd-style movie review app. Browse the movie catalog, log the ones you've watched with a click-to-rate star picker (half-star precision), mark liked/not liked, and see other users' reviews. The catalog itself is curated (imported from TMDB) rather than user-editable - there's no "add a movie" flow in the UI.
 
 - **Backend:** Spring Boot (REST API, JWT auth, layered architecture)
 - **Frontend:** React (Vite)
@@ -57,10 +57,25 @@ With the backend running, seed some users/movies/reviews through the real API (s
 
 Creates demo logins `alice` / `demo1234` and `bob` / `demo1234`, three movies, and a handful of reviews.
 
+## Movie catalog (TMDB import)
+
+The catalog is populated from [TMDB](https://www.themoviedb.org/)'s popular-movies list, not hand-entered. To (re)populate it:
+
+1. Get a free TMDB API key at https://www.themoviedb.org/settings/api.
+2. With the backend running:
+
+```bash
+TMDB_API_KEY=your_key_here python3 scripts/import_tmdb.py [pages]
+```
+
+`pages` (default 4) is how many pages of TMDB's popular list to pull, 20 movies per page. Safe to re-run - it skips titles already in the catalog and logs in as (or creates) a dedicated `tmdb-importer` account rather than reusing your own. Uses only the Python stdlib, no extra installs.
+
+Movies added this way get a real poster (TMDB CDN); anything added without a poster URL (e.g. the seed script's demo movies) falls back to a generated placeholder in the UI.
+
 ## Project layout
 
 ```
 backend/   Spring Boot API (controller -> service -> repository -> MySQL)
 frontend/  React SPA (pages, components, axios API client)
-scripts/   seed.sh - demo data via live API
+scripts/   seed.sh - demo users/reviews, import_tmdb.py - catalog import
 ```

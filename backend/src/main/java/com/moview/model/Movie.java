@@ -25,6 +25,9 @@ public class Movie {
 
     private String director;
 
+    @Column(name = "poster_url")
+    private String posterUrl;
+
     public Movie() {
     }
 
@@ -73,5 +76,13 @@ public class Movie {
 
     public void setDirector(String director) {
         this.director = director;
+    }
+
+    public String getPosterUrl() {
+        return posterUrl;
+    }
+
+    public void setPosterUrl(String posterUrl) {
+        this.posterUrl = posterUrl;
     }
 }

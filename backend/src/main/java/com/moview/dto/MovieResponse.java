@@ -9,6 +9,7 @@ public class MovieResponse {
     private String genre;
     private Integer releaseYear;
     private String director;
+    private String posterUrl;
     private Double avgRating;
     private long reviewCount;
 
@@ -22,6 +23,7 @@ public class MovieResponse {
         this.genre = movie.getGenre();
         this.releaseYear = movie.getReleaseYear();
         this.director = movie.getDirector();
+        this.posterUrl = movie.getPosterUrl();
         this.avgRating = avgRating;
         this.reviewCount = reviewCount;
     }
@@ -44,6 +46,10 @@ public class MovieResponse {
 
     public String getDirector() {
         return director;
+    }
+
+    public String getPosterUrl() {
+        return posterUrl;
     }
 
     public Double getAvgRating() {

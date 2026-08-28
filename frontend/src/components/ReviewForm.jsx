@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import StarRating from './StarRating.jsx';
+import StarPicker from './StarPicker.jsx';
 
 const emptyForm = { rating: 5, liked: true, reviewText: '', watchedDate: '' };
 
@@ -30,19 +30,8 @@ export default function ReviewForm({ initial, onSubmit, onCancel }) {
       {error && <p className="error">{error}</p>}
 
       <label>
-        Rating (0-10, half-star steps)
-        <input
-          type="number"
-          min="0"
-          max="10"
-          step="0.5"
-          value={form.rating}
-          onChange={(e) => update('rating', e.target.value)}
-          required
-        />
-        <span className="rating-preview">
-          <StarRating rating={Number(form.rating) || 0} size="lg" />
-        </span>
+        Your rating
+        <StarPicker value={Number(form.rating) || 0} onChange={(rating) => update('rating', rating)} />
       </label>
 
       <label className="liked-toggle">

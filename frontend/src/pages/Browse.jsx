@@ -1,14 +1,10 @@
 import { useEffect, useState } from 'react';
 import api from '../api/axios.js';
-import { useAuth } from '../context/AuthContext.jsx';
 import MovieCard from '../components/MovieCard.jsx';
-import MovieForm from '../components/MovieForm.jsx';
 
 export default function Browse() {
-  const { user } = useAuth();
   const [movies, setMovies] = useState([]);
   const [search, setSearch] = useState('');
-  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
     loadMovies(search);
@@ -19,21 +15,10 @@ export default function Browse() {
     setMovies(data);
   }
 
-  async function handleCreate(movie) {
-    await api.post('/movies', movie);
-    setShowForm(false);
-    loadMovies(search);
-  }
-
   return (
     <div className="page">
       <div className="page-header">
         <h2>Browse movies</h2>
-        {user && (
-          <button className={showForm ? 'btn-secondary' : ''} onClick={() => setShowForm((s) => !s)}>
-            {showForm ? 'Cancel' : 'Add movie'}
-          </button>
-        )}
       </div>
 
       <input
@@ -42,8 +27,6 @@ export default function Browse() {
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
-
-      {showForm && <MovieForm onSubmit={handleCreate} onCancel={() => setShowForm(false)} />}
 
       <div className="movie-grid">
         {movies.map((m) => (
