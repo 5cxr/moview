@@ -14,3 +14,8 @@ npm-debug.log*
 
 # OS
 .DS_Store
+
+# secrets (TMDB_API_KEY etc. - never commit real keys)
+.env
+.env.*
+__pycache__/

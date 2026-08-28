@@ -1,25 +1,29 @@
 #!/usr/bin/env bash
-# Seeds demo users, movies, and reviews against a running backend (localhost:8080).
+# Seeds demo users and reviews against a running backend (localhost:8080).
 # Uses the real API so passwords go through the actual BCrypt path - no
 # hardcoded hashes to keep in sync with the app.
+#
+# Movies are NOT created here - the catalog comes from scripts/import_tmdb.py.
+# Run that first (or make sure the catalog already has movies) before this.
 set -euo pipefail
 
 API=http://localhost:8080/api
 
 register() {
   local username=$1 email=$2 password=$3
-  curl -s -X POST "$API/auth/register" \
+  local token
+  token=$(curl -s -X POST "$API/auth/register" \
     -H "Content-Type: application/json" \
     -d "{\"username\":\"$username\",\"email\":\"$email\",\"password\":\"$password\"}" \
-    | python3 -c "import sys,json; print(json.load(sys.stdin).get('token',''))"
-}
-
-create_movie() {
-  local token=$1 title=$2 genre=$3 year=$4 director=$5
-  curl -s -X POST "$API/movies" \
-    -H "Content-Type: application/json" -H "Authorization: Bearer $token" \
-    -d "{\"title\":\"$title\",\"genre\":\"$genre\",\"releaseYear\":$year,\"director\":\"$director\"}" \
-    | python3 -c "import sys,json; print(json.load(sys.stdin)['movieId'])"
+    | python3 -c "import sys,json; print(json.load(sys.stdin).get('token',''))")
+  if [ -z "$token" ]; then
+    # already registered - log in instead so the script can be re-run safely
+    token=$(curl -s -X POST "$API/auth/login" \
+      -H "Content-Type: application/json" \
+      -d "{\"username\":\"$username\",\"password\":\"$password\"}" \
+      | python3 -c "import sys,json; print(json.load(sys.stdin).get('token',''))")
+  fi
+  echo "$token"
 }
 
 create_review() {
@@ -34,10 +38,15 @@ echo "registering demo users..."
 ALICE=$(register alice alice@demo.com demo1234)
 BOB=$(register bob bob@demo.com demo1234)
 
-echo "adding movies..."
-M1=$(create_movie "$ALICE" "Inception" "Sci-Fi" 2010 "Christopher Nolan")
-M2=$(create_movie "$ALICE" "Parasite" "Thriller" 2019 "Bong Joon-ho")
-M3=$(create_movie "$ALICE" "The Grand Budapest Hotel" "Comedy" 2014 "Wes Anderson")
+echo "picking movies from the existing catalog..."
+MOVIE_IDS=$(curl -s "$API/movies" | python3 -c "
+import json, sys
+movies = json.load(sys.stdin)
+if len(movies) < 3:
+    sys.exit('catalog has fewer than 3 movies - run scripts/import_tmdb.py first')
+print(' '.join(str(m['movieId']) for m in movies[:3]))
+")
+read -r M1 M2 M3 <<< "$MOVIE_IDS"
 
 echo "adding reviews..."
 create_review "$ALICE" "$M1" 9.5 true "Mind bending, rewatched twice." "2026-08-10"

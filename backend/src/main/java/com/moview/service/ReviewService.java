@@ -62,8 +62,9 @@ public class ReviewService {
         Review review = findReviewOrThrow(reviewId);
         requireOwnership(review, username);
         applyRequest(review, request);
+        reviewRepository.save(review);
 
-        return new ReviewResponse(reviewRepository.save(review));
+        return new ReviewResponse(review);
     }
 
     public void delete(String username, Integer reviewId) {
@@ -94,7 +95,7 @@ public class ReviewService {
     }
 
     private Review findReviewOrThrow(Integer reviewId) {
-        return reviewRepository.findById(reviewId)
+        return reviewRepository.findByIdWithJoin(reviewId)
                 .orElseThrow(() -> new ResourceNotFoundException("no review with id: " + reviewId));
     }
 

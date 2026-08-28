@@ -43,7 +43,7 @@ public class ReviewController {
     }
 
     /** Updates one of the current user's own reviews. */
-    @PutMapping("/{reviewId}")
+    @PutMapping("/{reviewId:[0-9]+}")
     public ResponseEntity<ReviewResponse> update(Authentication authentication,
                                                   @PathVariable Integer reviewId,
                                                   @Valid @RequestBody ReviewRequest request) {
@@ -51,7 +51,7 @@ public class ReviewController {
     }
 
     /** Deletes one of the current user's own reviews. */
-    @DeleteMapping("/{reviewId}")
+    @DeleteMapping("/{reviewId:[0-9]+}")
     public ResponseEntity<Void> delete(Authentication authentication, @PathVariable Integer reviewId) {
         reviewService.delete(authentication.getName(), reviewId);
         return ResponseEntity.noContent().build();
