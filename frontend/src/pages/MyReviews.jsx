@@ -39,7 +39,7 @@ export default function MyReviews() {
 
       <div className="review-list">
         {reviews.map((r) => (
-          <div key={r.reviewId}>
+          <div key={r.reviewId} className="my-review-entry">
             <Link to={`/movies/${r.movieId}`} className="movie-link">{r.movieTitle}</Link>
             <ReviewCard
               review={r}
@@ -49,7 +49,7 @@ export default function MyReviews() {
             />
           </div>
         ))}
-        {reviews.length === 0 && <p>You haven't reviewed anything yet.</p>}
+        {reviews.length === 0 && <p className="empty-state">You haven't reviewed anything yet.</p>}
       </div>
     </div>
   );

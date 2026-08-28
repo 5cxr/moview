@@ -22,4 +22,9 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
     Optional<Review> findByUserUserIdAndMovieMovieId(Integer userId, Integer movieId);
 
     boolean existsByUserUserIdAndMovieMovieId(Integer userId, Integer movieId);
+
+    @Query("SELECT AVG(r.rating) FROM Review r WHERE r.movie.movieId = :movieId")
+    Double findAverageRatingByMovieId(@Param("movieId") Integer movieId);
+
+    long countByMovieMovieId(Integer movieId);
 }

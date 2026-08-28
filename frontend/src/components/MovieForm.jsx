@@ -46,7 +46,7 @@ export default function MovieForm({ initial, onSubmit, onCancel }) {
 
       <div className="form-actions">
         <button type="submit">Save movie</button>
-        {onCancel && <button type="button" onClick={onCancel}>Cancel</button>}
+        {onCancel && <button type="button" className="btn-secondary" onClick={onCancel}>Cancel</button>}
       </div>
     </form>
   );

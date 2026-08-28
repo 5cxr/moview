@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import StarRating from './StarRating.jsx';
 
 const emptyForm = { rating: 5, liked: true, reviewText: '', watchedDate: '' };
 
@@ -39,6 +40,9 @@ export default function ReviewForm({ initial, onSubmit, onCancel }) {
           onChange={(e) => update('rating', e.target.value)}
           required
         />
+        <span className="rating-preview">
+          <StarRating rating={Number(form.rating) || 0} size="lg" />
+        </span>
       </label>
 
       <label className="liked-toggle">
@@ -70,7 +74,7 @@ export default function ReviewForm({ initial, onSubmit, onCancel }) {
 
       <div className="form-actions">
         <button type="submit">Save review</button>
-        {onCancel && <button type="button" onClick={onCancel}>Cancel</button>}
+        {onCancel && <button type="button" className="btn-secondary" onClick={onCancel}>Cancel</button>}
       </div>
     </form>
   );

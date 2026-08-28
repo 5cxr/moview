@@ -29,7 +29,11 @@ export default function Browse() {
     <div className="page">
       <div className="page-header">
         <h2>Browse movies</h2>
-        {user && <button onClick={() => setShowForm((s) => !s)}>{showForm ? 'Cancel' : 'Add movie'}</button>}
+        {user && (
+          <button className={showForm ? 'btn-secondary' : ''} onClick={() => setShowForm((s) => !s)}>
+            {showForm ? 'Cancel' : 'Add movie'}
+          </button>
+        )}
       </div>
 
       <input
@@ -45,7 +49,7 @@ export default function Browse() {
         {movies.map((m) => (
           <MovieCard key={m.movieId} movie={m} />
         ))}
-        {movies.length === 0 && <p>No movies yet.</p>}
+        {movies.length === 0 && <p className="empty-state">No movies yet.</p>}
       </div>
     </div>
   );

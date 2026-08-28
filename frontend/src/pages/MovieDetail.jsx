@@ -5,6 +5,8 @@ import { useAuth } from '../context/AuthContext.jsx';
 import ReviewCard from '../components/ReviewCard.jsx';
 import ReviewForm from '../components/ReviewForm.jsx';
 import MovieForm from '../components/MovieForm.jsx';
+import StarRating from '../components/StarRating.jsx';
+import { posterGradient, posterInitial } from '../utils/poster.js';
 
 export default function MovieDetail() {
   const { movieId } = useParams();
@@ -70,20 +72,39 @@ export default function MovieDetail() {
         <MovieForm initial={movie} onSubmit={handleMovieUpdate} onCancel={() => setEditingMovie(false)} />
       ) : (
         <div className="movie-header">
-          <h2>{movie.title} ({movie.releaseYear})</h2>
-          <p>{movie.genre} · dir. {movie.director}</p>
-          {user && (
-            <div className="movie-actions">
-              <button onClick={() => setEditingMovie(true)}>Edit movie</button>
-              <button onClick={handleMovieDelete}>Delete movie</button>
+          <div className="poster" style={{ background: posterGradient(movie.title) }}>
+            <span className="poster-initial">{posterInitial(movie.title)}</span>
+          </div>
+          <div className="movie-info">
+            <h2>{movie.title} ({movie.releaseYear})</h2>
+            <div className="movie-meta-row">
+              <span className="genre-pill">{movie.genre}</span>
+              <span className="director">dir. {movie.director}</span>
             </div>
-          )}
+            {movie.reviewCount > 0 && (
+              <div className="movie-rating-summary">
+                <StarRating rating={movie.avgRating} size="lg" />
+                <span className="rating-number">
+                  {(movie.avgRating / 2).toFixed(1)} ({movie.reviewCount} review{movie.reviewCount === 1 ? '' : 's'})
+                </span>
+              </div>
+            )}
+            {user && (
+              <div className="movie-actions">
+                <button className="btn-secondary" onClick={() => setEditingMovie(true)}>Edit movie</button>
+                <button className="btn-danger" onClick={handleMovieDelete}>Delete movie</button>
+              </div>
+            )}
+          </div>
         </div>
       )}
 
       <hr />
 
-      <h3>Reviews</h3>
+      <div className="section-heading">
+        <h3>Reviews</h3>
+        {reviews.length > 0 && <span className="count">{reviews.length}</span>}
+      </div>
 
       {user && !myReview && !addingReview && (
         <button onClick={() => setAddingReview(true)}>Write a review</button>
@@ -110,7 +131,7 @@ export default function MovieDetail() {
             onDelete={() => handleReviewDelete(r.reviewId)}
           />
         ))}
-        {reviews.length === 0 && <p>No reviews yet - be the first.</p>}
+        {reviews.length === 0 && <p className="empty-state">No reviews yet - be the first.</p>}
       </div>
     </div>
   );

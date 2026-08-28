@@ -5,6 +5,7 @@ import com.moview.dto.MovieResponse;
 import com.moview.exception.ResourceNotFoundException;
 import com.moview.model.Movie;
 import com.moview.repository.MovieRepository;
+import com.moview.repository.ReviewRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,9 +14,11 @@ import java.util.List;
 public class MovieService {
 
     private final MovieRepository movieRepository;
+    private final ReviewRepository reviewRepository;
 
-    public MovieService(MovieRepository movieRepository) {
+    public MovieService(MovieRepository movieRepository, ReviewRepository reviewRepository) {
         this.movieRepository = movieRepository;
+        this.reviewRepository = reviewRepository;
     }
 
     public List<MovieResponse> getAll(String search) {
@@ -23,11 +26,17 @@ public class MovieService {
                 ? movieRepository.findAll()
                 : movieRepository.findByTitleContainingIgnoreCase(search);
 
-        return movies.stream().map(MovieResponse::new).toList();
+        return movies.stream().map(this::toResponseWithRating).toList();
     }
 
     public MovieResponse getById(Integer movieId) {
-        return new MovieResponse(findMovieOrThrow(movieId));
+        return toResponseWithRating(findMovieOrThrow(movieId));
+    }
+
+    private MovieResponse toResponseWithRating(Movie movie) {
+        Double avgRating = reviewRepository.findAverageRatingByMovieId(movie.getMovieId());
+        long reviewCount = reviewRepository.countByMovieMovieId(movie.getMovieId());
+        return new MovieResponse(movie, avgRating, reviewCount);
     }
 
     public MovieResponse create(MovieRequest request) {
