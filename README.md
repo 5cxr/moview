@@ -47,7 +47,7 @@ npm run dev
 
 Runs on `http://localhost:5173`, proxies API calls to `http://localhost:8080`.
 
-## Demo data
+## Demo data-
 
 With the backend running, seed some users/movies/reviews through the real API (so passwords go through the actual BCrypt path):
 
@@ -55,7 +55,7 @@ With the backend running, seed some users/movies/reviews through the real API (s
 ./scripts/seed.sh
 ```
 
-Creates demo logins `alice` / `demo1234` and `bob` / `demo1234`, three movies, and a handful of reviews.
+Creates demo logins `Harsh` / `demo1234` and `Sarthak` / `demo1234`, three movies, and a handful of reviews.
 
 ## Movie catalog (TMDB import)
 
