@@ -12,6 +12,8 @@ public class ReviewResponse {
     private String username;
     private Integer movieId;
     private String movieTitle;
+    private Integer movieReleaseYear;
+    private String moviePosterUrl;
     private BigDecimal rating;
     private Boolean liked;
     private String reviewText;
@@ -23,6 +25,8 @@ public class ReviewResponse {
         this.username = review.getUser().getUsername();
         this.movieId = review.getMovie().getMovieId();
         this.movieTitle = review.getMovie().getTitle();
+        this.movieReleaseYear = review.getMovie().getReleaseYear();
+        this.moviePosterUrl = review.getMovie().getPosterUrl();
         this.rating = review.getRating();
         this.liked = review.getLiked();
         this.reviewText = review.getReviewText();
@@ -47,6 +51,14 @@ public class ReviewResponse {
 
     public String getMovieTitle() {
         return movieTitle;
+    }
+
+    public Integer getMovieReleaseYear() {
+        return movieReleaseYear;
+    }
+
+    public String getMoviePosterUrl() {
+        return moviePosterUrl;
     }
 
     public BigDecimal getRating() {

@@ -15,7 +15,7 @@ export default function Navbar() {
       <Link to="/" className="brand">Moview</Link>
       <div className="nav-links">
         <Link to="/">Browse</Link>
-        {user && <Link to="/my-reviews">My Reviews</Link>}
+        {user && <Link to="/my-reviews">My Films</Link>}
         {user ? (
           <>
             <span className="nav-user">{user.username}</span>

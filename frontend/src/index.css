@@ -1,13 +1,18 @@
 :root {
-  --bg: #14181c;
-  --bg-elevated: #1c232b;
-  --bg-elevated-2: #262f39;
-  --border: #2c3440;
-  --text: #dfe4e8;
-  --text-dim: #8b98a3;
-  --green: #00e054;
-  --green-dark: #00b043;
-  --orange: #ff8000;
+  --black: #000000;
+  --prussian-blue: #14213d;
+  --orange: #fca311;
+  --alabaster-grey: #e5e5e5;
+  --white: #ffffff;
+
+  --bg: var(--black);
+  --bg-elevated: var(--prussian-blue);
+  --bg-elevated-2: #1e2c4c;
+  --border: #2f3c58;
+  --text: var(--alabaster-grey);
+  --text-dim: #8f96a8;
+  --accent: var(--orange);
+  --accent-dark: #d6890e;
   --red: #ff4056;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, system-ui, sans-serif;
   color: var(--text);
@@ -24,7 +29,7 @@ body {
 }
 
 a {
-  color: var(--green);
+  color: var(--accent);
 }
 
 h1, h2, h3 {
@@ -42,7 +47,7 @@ h1, h2, h3 {
   justify-content: space-between;
   align-items: center;
   padding: 0.9rem 2rem;
-  background: rgba(20, 24, 28, 0.92);
+  background: rgba(0, 0, 0, 0.92);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--border);
 }
@@ -55,14 +60,14 @@ h1, h2, h3 {
 }
 
 .navbar a:hover {
-  color: var(--green);
+  color: var(--accent);
 }
 
 .brand {
   font-weight: 800;
   font-size: 1.3rem;
   font-style: italic;
-  color: var(--green) !important;
+  color: var(--accent) !important;
   letter-spacing: -0.02em;
 }
 
@@ -113,7 +118,7 @@ h1, h2, h3 {
 
 .search-box:focus {
   outline: none;
-  border-color: var(--green);
+  border-color: var(--accent);
 }
 
 .search-box::placeholder {
@@ -236,27 +241,68 @@ h1, h2, h3 {
 }
 
 .star-picker {
-  position: relative;
-  display: inline-block;
+  display: inline-flex;
+  gap: 2px;
   cursor: pointer;
 }
 
-.star-picker-hitboxes {
+.star-picker-sm {
+  font-size: 0.75rem;
+}
+
+.star-picker-md {
+  font-size: 1rem;
+}
+
+.star-picker-lg {
+  font-size: 1.4rem;
+}
+
+.star-picker-cell {
+  position: relative;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
+}
+
+.star-picker-glyph {
   position: absolute;
   inset: 0;
   display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
 }
 
-.star-picker-hitbox {
-  flex: 1;
-  height: 100%;
+.star-picker-glyph-empty {
+  color: var(--border);
+}
+
+.star-picker-glyph-fill {
+  color: var(--orange);
+}
+
+.star-picker-hit {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
   padding: 0;
+  margin: 0;
   background: transparent;
   border: none;
   border-radius: 0;
 }
 
-.star-picker-hitbox:hover, .star-picker-hitbox:focus-visible {
+.star-picker-hit-left {
+  left: 0;
+}
+
+.star-picker-hit-right {
+  right: 0;
+}
+
+.star-picker-hit:hover, .star-picker-hit:focus-visible {
   background: transparent;
 }
 
@@ -394,7 +440,7 @@ hr {
   height: 30px;
   border-radius: 50%;
   background: var(--bg-elevated-2);
-  color: var(--green);
+  color: var(--accent);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -441,11 +487,36 @@ hr {
 }
 
 .movie-link:hover {
-  color: var(--green);
+  color: var(--accent);
 }
 
-.my-review-entry {
-  margin-bottom: 1.25rem;
+.logged-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+
+.logged-card {
+  display: flex;
+  gap: 1rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.logged-poster {
+  width: 90px;
+  flex-shrink: 0;
+}
+
+.logged-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
 }
 
 /* ---------- Auth ---------- */
@@ -470,8 +541,8 @@ hr {
 button {
   cursor: pointer;
   border: none;
-  background: var(--green);
-  color: #0a0e12;
+  background: var(--accent);
+  color: var(--black);
   padding: 0.5rem 1.1rem;
   border-radius: 6px;
   font-weight: 700;
@@ -480,7 +551,7 @@ button {
 }
 
 button:hover {
-  background: var(--green-dark);
+  background: var(--accent-dark);
 }
 
 button.btn-secondary {
@@ -514,7 +585,7 @@ input, textarea {
 
 input:focus, textarea:focus {
   outline: none;
-  border-color: var(--green);
+  border-color: var(--accent);
 }
 
 input[type="checkbox"] {

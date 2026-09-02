@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../api/axios.js';
-import ReviewCard from '../components/ReviewCard.jsx';
+import StarRating from '../components/StarRating.jsx';
 import ReviewForm from '../components/ReviewForm.jsx';
+import { posterGradient, posterInitial } from '../utils/poster.js';
 
 export default function MyReviews() {
   const [reviews, setReviews] = useState([]);
@@ -31,25 +32,50 @@ export default function MyReviews() {
 
   return (
     <div className="page">
-      <h2>My reviews</h2>
+      <h2>My films</h2>
+      <p className="page-subtitle">Every movie you've logged - rated, liked, or reviewed.</p>
 
       {editingReview && (
         <ReviewForm initial={editingReview} onSubmit={handleUpdate} onCancel={() => setEditingReview(null)} />
       )}
 
-      <div className="review-list">
+      <div className="logged-grid">
         {reviews.map((r) => (
-          <div key={r.reviewId} className="my-review-entry">
-            <Link to={`/movies/${r.movieId}`} className="movie-link">{r.movieTitle}</Link>
-            <ReviewCard
-              review={r}
-              canEdit={!editingReview}
-              onEdit={() => setEditingReview(r)}
-              onDelete={() => handleDelete(r.reviewId)}
-            />
+          <div key={r.reviewId} className="logged-card">
+            <Link to={`/movies/${r.movieId}`}>
+              {r.moviePosterUrl ? (
+                <img className="poster logged-poster" src={r.moviePosterUrl} alt={r.movieTitle} />
+              ) : (
+                <div className="poster logged-poster" style={{ background: posterGradient(r.movieTitle) }}>
+                  <span className="poster-initial">{posterInitial(r.movieTitle)}</span>
+                </div>
+              )}
+            </Link>
+
+            <div className="logged-info">
+              <Link to={`/movies/${r.movieId}`} className="movie-link">
+                {r.movieTitle}{r.movieReleaseYear ? ` (${r.movieReleaseYear})` : ''}
+              </Link>
+
+              <div className="review-header">
+                <StarRating rating={r.rating} />
+                <span className="rating-number">{r.rating}/10</span>
+                <span className={`liked-heart ${r.liked ? 'is-liked' : ''}`}>{r.liked ? '♥' : '♡'}</span>
+              </div>
+
+              {r.watchedDate && <p className="watched-date">watched {r.watchedDate}</p>}
+              {r.reviewText && <p className="review-text">{r.reviewText}</p>}
+
+              {!editingReview && (
+                <div className="review-actions">
+                  <button className="btn-secondary" onClick={() => setEditingReview(r)}>Edit</button>
+                  <button className="btn-danger" onClick={() => handleDelete(r.reviewId)}>Delete</button>
+                </div>
+              )}
+            </div>
           </div>
         ))}
-        {reviews.length === 0 && <p className="empty-state">You haven't reviewed anything yet.</p>}
+        {reviews.length === 0 && <p className="empty-state">You haven't logged anything yet.</p>}
       </div>
     </div>
   );
