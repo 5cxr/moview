@@ -6,6 +6,8 @@ A small Letterboxd-style movie review app. Browse the movie catalog, log the one
 - **Frontend:** React (Vite)
 - **Database:** MySQL
 
+See [CODEBASE.md](CODEBASE.md) for how the pieces fit together - data model, auth flow, and a couple of non-obvious gotchas worth knowing before you touch the review endpoints.
+
 ## Prerequisites
 
 - Java 17+, Maven
@@ -47,7 +49,7 @@ npm run dev
 
 Runs on `http://localhost:5173`, proxies API calls to `http://localhost:8080`.
 
-## Demo data-
+## Demo data
 
 With the backend running, seed some users/movies/reviews through the real API (so passwords go through the actual BCrypt path):
 
@@ -55,7 +57,7 @@ With the backend running, seed some users/movies/reviews through the real API (s
 ./scripts/seed.sh
 ```
 
-Creates demo logins `Harsh` / `demo1234` and `Sarthak` / `demo1234`, three movies, and a handful of reviews.
+Creates demo logins `alice` / `demo1234` and `bob` / `demo1234`, and logs a couple of reviews against whatever's already in the catalog (see the TMDB import below - run that first if the catalog's empty).
 
 ## Movie catalog (TMDB import)
 
